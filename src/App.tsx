@@ -6,18 +6,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <h2>UNC Lead Explosure</h2>
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          This project tend to visualize and explain recent concerns about lead explosure in UNC.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
