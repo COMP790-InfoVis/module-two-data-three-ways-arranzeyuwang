@@ -15,7 +15,7 @@ This website tends to visualize and explain concerns about where, when, and how 
 
 ## Usage
 
-Requirements: npm, node, vega suites (vega, vega-lite, vega-embed).
+Requirements: npm, node, react, vega suites.
 
 Preparing:
 ```

@@ -1,6 +1,8 @@
-/* eslint-disable react/style-prop-object */
 import React from 'react';
-import logo from './logo.svg';
+
+import { VegaLite } from "react-vega";
+import { leadData } from "./dataset/leadData";
+
 import './App.css';
 
 function App() {
@@ -32,18 +34,26 @@ function App() {
           to make the published dataset easier to understand.
         </p>
         <p>
-          &emsp;Where -- buildings that were reported lead exposure:
+          &emsp;Where --
+          buildings that were reported lead exposure:
         </p>
-        <div id="where"></div>
+        <div id="where">
+          
+        </div>
         <p>
-          &emsp;When -- number of lead exposure buildings reported by date:
+          &emsp;When --
+          number of lead-exposure buildings and fixtures reported by months:
         </p>
-        <div id="when"></div>
+        <div id="when">
+
+        </div>
         <p>
-          &emsp;How -- (how much and how frequent):
-          tested lead value and number/percentage of fixtures of lead across buildings:
+          &emsp;How many --
+          number of lead-exposure fixtures in each building::
         </p>
-        <div id="how"></div>
+        <div id="how">
+
+        </div>
         <p>
           &emsp;Dataset source at:&nbsp;
           <a href="https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/">
