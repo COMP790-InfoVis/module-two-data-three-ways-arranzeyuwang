@@ -1,3 +1,8 @@
+/**
+ * Modified from D3 gallery - line chart at
+ * https://observablehq.com/@d3/line-chart
+ */
+
 import * as d3 from "d3";
 
 import { leadDate } from "./dataset/leadData";
@@ -13,12 +18,11 @@ const Div = styled.div`
 export default function LineChart() {
   const ref = d3Adaptor(
     (w, h) => {
-      // viewport
       let margin = {
           top: 30,
           right: 30,
           left: 60,
-          bottom: 60
+          bottom: 60,
         },
         width = w - margin.left - margin.right,
         height = h - margin.top - margin.bottom;
@@ -42,13 +46,23 @@ export default function LineChart() {
       let yL = d3.scaleLinear().range([height, 0]);
       let yR = d3.scaleLinear().range([height, 0]);
 
-      const leftLine = d3.line()
-        .x(function(d: any) { return x(d.date); })
-        .y(function(d: any) { return yL(d["Number of Buildings"]); });
+      const leftLine = d3
+        .line()
+        .x(function (d: any) {
+          return x(d.date);
+        })
+        .y(function (d: any) {
+          return yL(d["Number of Buildings"]);
+        });
 
-      const rightLine = d3.line()
-        .x(function(d: any) { return x(d.date); })
-        .y(function(d: any) { return yL(d["Number of Fixtures"]); });
+      const rightLine = d3
+        .line()
+        .x(function (d: any) {
+          return x(d.date);
+        })
+        .y(function (d: any) {
+          return yL(d["Number of Fixtures"]);
+        });
 
       const xAxis = (g: any) =>
         g
@@ -62,17 +76,23 @@ export default function LineChart() {
           .attr("transform", "rotate(90)")
           .attr("text-anchor", "start");
 
-      x.domain(
-        d3.extent(leadDate, (d) => new Date(d.Date)) as [Date, Date]
-      );
+      x.domain(d3.extent(leadDate, (d) => new Date(d.Date)) as [Date, Date]);
 
-      const yAxisLeft = (g: any) => g.call(d3.axisLeft(yL).tickFormat(d3.format(".2s")));
+      const yAxisLeft = (g: any) =>
+        g.call(d3.axisLeft(yL).tickFormat(d3.format(".2s")));
 
-      yL.domain([0, d3.max(leadDate, (d) => d["Number of Fixtures"])] as [number, number]);
+      yL.domain([0, d3.max(leadDate, (d) => d["Number of Fixtures"])] as [
+        number,
+        number
+      ]);
 
-      const yAxisRight = (g: any) => g.call(d3.axisRight(yR).tickFormat(d3.format(".2s")));
+      const yAxisRight = (g: any) =>
+        g.call(d3.axisRight(yR).tickFormat(d3.format(".2s")));
 
-      yR.domain([0, d3.max(leadDate, (d) => d["Number of Buildings"])] as [number, number]);
+      yR.domain([0, d3.max(leadDate, (d) => d["Number of Buildings"])] as [
+        number,
+        number
+      ]);
 
       container
         .selectAll(".x-axis")
@@ -89,14 +109,14 @@ export default function LineChart() {
         .style("fill", "none")
         .call(yAxisLeft);
 
-    //   container
-    //     .selectAll(".y-axis-r")
-    //     .data([{}])
-    //     .attr("transform", "translate(" + width + " ,0)")
-    //     .join("g")
-    //     .attr("class", "y-axis-r")
-    //     .style("fill", "none")
-    //     .call(yAxisRight);
+      //   container
+      //     .selectAll(".y-axis-r")
+      //     .data([{}])
+      //     .attr("transform", "translate(" + width + " ,0)")
+      //     .join("g")
+      //     .attr("class", "y-axis-r")
+      //     .style("fill", "none")
+      //     .call(yAxisRight);
 
       let plotArea = container
         .selectAll(".plot-area")
@@ -118,7 +138,6 @@ export default function LineChart() {
             .x((d: any) => x(new Date(d.Date)))
             .y((d: any) => yL(d["Number of Buildings"])) as any
         );
-
 
       plotArea
         .append("path")

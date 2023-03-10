@@ -1,4 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+
+/**
+ * Modified from D3 gallery - react hooks at
+ * https://observablehq.com/@jerstucki/react-hooks-and-d3
+ */
+
 import React, { useRef, useEffect } from "react";
 import debounce from "lodash/debounce";
 

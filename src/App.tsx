@@ -1,80 +1,189 @@
-import React from 'react';
+import React, { useRef, useEffect } from "react";
 
-import { VegaLite } from "react-vega";
 import { leadBuildings, leadDate } from "./dataset/leadData";
+
+import { Pie, Column, measureTextWidth } from "@antv/g2plot";
 
 import D3LineChart from "./LineChart";
 
-import './App.css';
+import "./App.css";
+
+function renderStatistic(containerWidth: number, text: string, style: any) {
+  const textWidth = measureTextWidth(text, style);
+  const textHeight = style.lineHeight || style.fontSize;
+  const R = containerWidth / 2;
+  // r^2 = (w / 2)^2 + (h - offsetY)^2
+  let scale = 1;
+  if (containerWidth < textWidth) {
+    scale = Math.min(
+      Math.sqrt(
+        Math.abs(
+          Math.pow(R, 2) /
+            (Math.pow(textWidth / 2, 2) + Math.pow(textHeight, 2))
+        )
+      ),
+      1
+    );
+  }
+  const textStyleStr = `width:${containerWidth}px;`;
+  return `<div style="${textStyleStr};font-size:${scale}em;line-height:${
+    scale < 1 ? 1 : "inherit"
+  };">${text}</div>`;
+}
 
 function App() {
+  const containerWhich = useRef(null);
+
+  useEffect(() => {
+    if (!containerWhich.current) {
+      return;
+    }
+    const piePlot = new Pie(containerWhich.current, {
+      appendPadding: 10,
+      data: leadBuildings,
+      angleField: "Number of Places",
+      colorField: "Type",
+      radius: 1,
+      innerRadius: 0.64,
+      label: {
+        type: "inner",
+        offset: "-50%",
+        autoRotate: false,
+        style: { textAlign: "center" },
+        formatter: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+      },
+      statistic: {
+        title: {
+          offsetY: -4,
+          customHtml: (container, view, datum) => {
+            const { width, height } = container.getBoundingClientRect();
+            const d = Math.sqrt(
+              Math.pow(width / 2, 2) + Math.pow(height / 2, 2)
+            );
+            const text = datum ? datum["Building"] : "Total";
+            return renderStatistic(d, text, { fontSize: 28 });
+          },
+        },
+      },
+      interactions: [
+        { type: "element-selected" },
+        { type: "element-active" },
+        { type: "pie-statistic-active" },
+      ],
+    });
+    piePlot.render();
+  }, []);
+
   return (
-    <div className="App">
-      <head>
-        <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.1"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.2"></script>
-      </head>
-      <header className="App-header">
-        <h2>UNC Lead Exposure</h2>
-      </header>
-      <p className="App-body">
-        <p>
-          &emsp;The safety of water systems severely affects our life in UNC.
-          In last November, many of us received emails form the department 
-          about the lead tested in water fixtures of the Brooks building.
-        </p>
-        <p>
-          &emsp;However, if we look at more details published on the university website,
-          we'll see there're tens of buildings was reported to lead exposure.
-          Despite these datasets being published, the table format with complex text 
-          still makes it hard to get an at-a-glance understanding.
-        </p>
-        <p>
-          &emsp;This website tends to visualize and explain concerns about
-          which, when, and how many lead exposure happened in UNC,
-          to make the published dataset easier to understand.
-        </p>
-        <p>
-          &emsp;Which --
-          types of buildings and portions that were reported lead exposure:
-        </p>
-        <div id="which">
-
+    <>
+      <div className="App">
+        <header className="App-header">
+          <h2>UNC Lead Exposure</h2>
+        </header>
+        <div className="App-body">
+          <p>
+            &emsp;The safety of water systems severely affects our life in UNC.
+            In last November, many of us received emails form the department
+            about the lead tested in water fixtures of the Brooks building.
+          </p>
+          <p>
+            &emsp;However, if we look at more details published on the
+            university website, we'll see there're more than one hundred
+            buildings was reported to lead exposure. Despite these datasets
+            being published, the table format with complex text still makes it
+            hard to get an at-a-glance understanding.
+          </p>
+          <p>
+            &emsp;This website tends to visualize and explain concerns about
+            when, which, and how many lead exposure happened in UNC, to make the
+            published dataset easier to understand.
+          </p>
+          <p>
+            &emsp;When -- (in{" "}
+            <a className="inline-text" href="https://d3js.org/">
+              {" "}
+              D3
+            </a>
+            ):
+          </p>
+          <div id="when">
+            <D3LineChart />
+          </div>
+          <p>
+            The above chart shows the number of lead-exposure buildings (in blue
+            line) and fixtures (in red line) reported by UNC from August 2022 to
+            February 2023 per month.
+          </p>
+          <p>
+            The results obviously show that i) this round of lead exposure
+            started in August, where Winson Library was found lead in 3 fixtures
+            on Aug. 30, ii) the biggest number of lead exposure was tected in
+            November (69 buildings with 188 fixtures), when we received emails
+            from CS department, and iii) the exposure trend is descending now,
+            as of 7 buildings and 16 fixtures were reported in February.
+          </p>
+          <p>
+            According to the results and descending trend, we could assume the
+            lead-exposure problem is being solving now.
+          </p>
+          <p>
+            &emsp;Which -- (in{" "}
+            <a
+              className="inline-text"
+              href="https://g2plot.antv.antgroup.com/en/"
+            >
+              {" "}
+              G2Plot
+            </a>
+            ):
+          </p>
+          <div>
+            <div ref={containerWhich} />
+          </div>
+          <p>
+            The above chart shows types and portions of buildings that were
+            reported lead exposure by UNC. Hovering on the pies, you can see the
+            number of places tested with lead exposure in specific buildings. By
+            clicking the legends, you can explore the data within specific
+            building types.
+          </p>
+          <p>
+            The results indicate that the largest lead-exposed portions
+            buildings were department halls (in yellow). Student residence (lite
+            blue above) takes about 20 percent of total. And the biggest numbers
+            appear in the Kenan Studium (23), which is around 7% of all cases
+            and the Wilson Library (16, 5%).
+          </p>
+          <p>
+            Based on the above results, we should still be careful when drinking
+            water in department hall and residence. And please be specificly
+            avoiding using fixtures in Kenan Studium and Wilson Library.
+          </p>
+          <p>
+            &emsp;How many -- (in{" "}
+            <a
+              className="inline-text"
+              href="https://g2plot.antv.antgroup.com/en/"
+            >
+              {" "}
+              G2Plot
+            </a>
+            )
+          </p>
+          <div id="how"></div>
+          <p>
+            The above chart shows number of places tested with lead exposure
+            across differnet buildings.
+          </p>
+          <p>
+            &emsp;Dataset source at:&nbsp;
+            <a href="https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/">
+              https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/
+            </a>
+          </p>
         </div>
-        <p>
-          The above chart shows
-        </p>
-        <p>
-          &emsp;When --
-          number of lead-exposure buildings and fixtures reported by months:
-        </p>
-        <div id="when">
-          <D3LineChart />
-        </div>
-        <p>
-          The above chart shows the number of lead-exposure buildings 
-          (in <p className="blue-text"> blue </p>) and fixtures 
-          (in <p className="red-text"> red </p>) reported by UNC
-           from August 2022 to February 2023 by month.
-        </p>
-        <p>
-          &emsp;How many --
-        </p>
-        <div id="how">
-
-        </div>
-        <p>
-          The above chart shows
-        </p>
-        <p>
-          &emsp;Dataset source at:&nbsp;
-          <a href="https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/">
-            https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/
-          </a>
-        </p> 
-      </p>
-    </div>
+      </div>
+    </>
   );
 }
 
