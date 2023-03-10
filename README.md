@@ -13,6 +13,26 @@ Despite these datasets being published, the table format with complex text still
 
 This website tends to visualize and explain concerns about where, when, and how lead exposure happened in UNC, to make the published dataset easier to understand.
 
+## Usage
+
+Requirements: npm, node, vega suites (vega, vega-lite, vega-embed).
+
+Preparing:
+```
+npm install
+```
+
+Local testing:
+```
+npm start
+```
+
+Onling deploy:
+```
+npm run deploy
+```
+
+
 ## Learn More
 
 Data source: https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/
