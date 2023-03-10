@@ -15,6 +15,17 @@ const Div = styled.div`
   overflow: hidden;
 `;
 
+const dataLegend = [
+  {
+    name: "Fixtures",
+    color: "#ff0000",
+  },
+  {
+    name: "Buildings",
+    color: "#4682b4",
+  },
+];
+
 export default function LineChart() {
   const ref = d3Adaptor(
     (w, h) => {
@@ -124,6 +135,16 @@ export default function LineChart() {
         .join("g")
         .attr("class", "plot-area");
 
+      let legend = container
+        .selectAll(".legend")
+        .data(dataLegend)
+        .enter()
+        .append("g")
+        .attr("class", "legend")
+        .attr("transform", function (d, i) {
+          return "translate(-30," + (i * 20 + 30) + ")";
+        });
+
       plotArea
         .selectAll("path")
         .data([leadDate], (d: any) => d)
@@ -153,6 +174,25 @@ export default function LineChart() {
             .x((d: any) => x(new Date(d.Date)))
             .y((d: any) => yL(d["Number of Fixtures"])) as any
         );
+
+      legend
+        .append("rect")
+        .attr("x", width - 25)
+        .attr("y", 8)
+        .attr("width", 40)
+        .attr("height", 5)
+        .style("fill", function (d) {
+          return d.color;
+        });
+
+      legend
+        .append("text")
+        .attr("x", width - 30)
+        .attr("y", 15)
+        .style("text-anchor", "end")
+        .text(function (d) {
+          return d.name;
+        });
     },
     [leadDate]
   );
