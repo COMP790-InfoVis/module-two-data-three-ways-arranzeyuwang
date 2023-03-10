@@ -36,6 +36,24 @@
   color: #61dafb;
 }
 
+.line-chart {
+  min-height: 300px;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.bar-chart {
+  min-height: 300px;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.pie-chart {
+  min-height: 300px;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
 .red-text {
   color: red;
   display: inline-block;

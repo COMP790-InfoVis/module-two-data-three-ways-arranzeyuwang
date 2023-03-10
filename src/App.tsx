@@ -36,7 +36,7 @@ function newSort(x: any, y: any) {
 }
 
 function App() {
-  const sortData = leadBuildings.sort(newSort);
+  let sortData = leadBuildings;
 
   const containerWhich = useRef(null);
 
@@ -48,7 +48,7 @@ function App() {
     }
     const piePlot = new Pie(containerWhich.current, {
       appendPadding: 10,
-      data: sortData,
+      data: leadBuildings,
       angleField: "Number of Places",
       colorField: "Type",
       radius: 1,
@@ -80,15 +80,13 @@ function App() {
       ],
     });
     piePlot.render();
-  }, [sortData]);
 
-  useEffect(() => {
     if (!containerHow.current) {
       return;
     }
     const barPlot = new Column(containerHow.current, {
       appendPadding: 10,
-      data: sortData,
+      data: sortData.sort(newSort),
       xField: "Building",
       yField: "Number of Places",
       xAxis: {
@@ -136,7 +134,7 @@ function App() {
             </a>
             ):
           </p>
-          <div id="when">
+          <div className="line-chart" id="when">
             <D3LineChart />
           </div>
           <p>
@@ -168,7 +166,7 @@ function App() {
             ):
           </p>
           <div>
-            <div ref={containerWhich} />
+            <div className="pie-chart" ref={containerWhich} />
           </div>
           <p>
             The above chart shows types and portions of buildings that were
@@ -198,7 +196,7 @@ function App() {
             )
           </p>
           <div>
-            <div ref={containerHow} />
+            <div className="bar-chart" ref={containerHow} />
           </div>
           <p>
             The above chart shows the number of places with lead exposure across
