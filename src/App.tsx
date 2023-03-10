@@ -211,7 +211,7 @@ function App() {
             Studium (23), which is around 7% of all cases and the Wilson Library
             (16, 5%). Brinkhous-Bullitt Building (14), Mitchell Hall (12), and
             Kenan Center (11) are above 10 as well. Btw, Sitterson Hall ranked
-            No.6 with 6 lead exposures.
+            No.6 with 8 lead exposures.
           </p>
           <p>
             Thus please be specificly avoiding using fixtures in Kenan Studium
