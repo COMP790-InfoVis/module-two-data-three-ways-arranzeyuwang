@@ -218,7 +218,13 @@ function App() {
           <p>
             &emsp;Dataset source at:&nbsp;
             <a href="https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/">
-              https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/
+              https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results
+            </a>
+          </p>
+          <p>
+            &emsp;Git source at:&nbsp;
+            <a href="https://github.com/arranzeyuwang/lead-exposure">
+              https://github.com/arranzeyuwang/lead-exposure
             </a>
           </p>
         </div>
