@@ -35,4 +35,8 @@ npm run deploy
 
 ## Learn More
 
-Data source: https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/
+Data source: https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results
+
+Online deployment link: https://arranzeyuwang.github.io/lead-exposure
+
+Git source: https://github.com/arranzeyuwang/lead-exposure
