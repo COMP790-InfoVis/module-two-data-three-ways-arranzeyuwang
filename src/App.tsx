@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { VegaLite } from "react-vega";
-import { leadData } from "./dataset/leadData";
+import { leadBuildings, leadDate } from "./dataset/leadData";
 
 import './App.css';
 
@@ -30,14 +30,14 @@ function App() {
         </p>
         <p>
           &emsp;This website tends to visualize and explain concerns about
-          where, when, and how lead exposure happened in UNC,
+          which, when, and how many lead exposure happened in UNC,
           to make the published dataset easier to understand.
         </p>
         <p>
-          &emsp;Where --
-          buildings that were reported lead exposure:
+          &emsp;Which --
+          types of buildings and portions that were reported lead exposure:
         </p>
-        <div id="where">
+        <div id="which">
           
         </div>
         <p>
