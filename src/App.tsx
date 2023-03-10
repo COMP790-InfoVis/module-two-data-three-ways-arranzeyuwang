@@ -3,6 +3,8 @@ import React from 'react';
 import { VegaLite } from "react-vega";
 import { leadBuildings, leadDate } from "./dataset/leadData";
 
+import D3LineChart from "./LineChart";
+
 import './App.css';
 
 function App() {
@@ -38,22 +40,33 @@ function App() {
           types of buildings and portions that were reported lead exposure:
         </p>
         <div id="which">
-          
+
         </div>
+        <p>
+          The above chart shows
+        </p>
         <p>
           &emsp;When --
           number of lead-exposure buildings and fixtures reported by months:
         </p>
         <div id="when">
-
+          <D3LineChart />
         </div>
         <p>
+          The above chart shows the number of lead-exposure buildings 
+          (in <p className="blue-text"> blue </p>) and fixtures 
+          (in <p className="red-text"> red </p>) reported by UNC
+           from August 2022 to February 2023 by month.
+        </p>
+        <p>
           &emsp;How many --
-          number of lead-exposure fixtures in each building::
         </p>
         <div id="how">
 
         </div>
+        <p>
+          The above chart shows
+        </p>
         <p>
           &emsp;Dataset source at:&nbsp;
           <a href="https://ehs.unc.edu/topics/campus-drinking-water/drinking-water-testing-results/">

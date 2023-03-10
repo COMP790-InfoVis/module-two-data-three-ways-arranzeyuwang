@@ -15,7 +15,7 @@ This website tends to visualize and explain concerns about where, when, and how 
 
 ## Usage
 
-Requirements: npm, node, react, vega suites.
+Requirements: npm, node, react, d3 and vega suites.
 
 Preparing:
 ```
