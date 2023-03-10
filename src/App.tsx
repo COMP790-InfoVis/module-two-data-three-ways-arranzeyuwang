@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 
-import { leadBuildings, leadDate } from "./dataset/leadData";
+import { leadBuildings } from "./dataset/leadData";
 
 import { Pie, Column, measureTextWidth } from "@antv/g2plot";
 
@@ -31,8 +31,16 @@ function renderStatistic(containerWidth: number, text: string, style: any) {
   };">${text}</div>`;
 }
 
+function newSort(x: any, y: any) {
+  return y["Number of Places"] - x["Number of Places"];
+}
+
 function App() {
+  const sortData = leadBuildings.sort(newSort);
+
   const containerWhich = useRef(null);
+
+  const containerHow = useRef(null);
 
   useEffect(() => {
     if (!containerWhich.current) {
@@ -40,7 +48,7 @@ function App() {
     }
     const piePlot = new Pie(containerWhich.current, {
       appendPadding: 10,
-      data: leadBuildings,
+      data: sortData,
       angleField: "Number of Places",
       colorField: "Type",
       radius: 1,
@@ -72,7 +80,29 @@ function App() {
       ],
     });
     piePlot.render();
-  }, []);
+  }, [sortData]);
+
+  useEffect(() => {
+    if (!containerHow.current) {
+      return;
+    }
+    const barPlot = new Column(containerHow.current, {
+      appendPadding: 10,
+      data: sortData,
+      xField: "Building",
+      yField: "Number of Places",
+      xAxis: {
+        label: {
+          autoRotate: false,
+        },
+      },
+      slider: {
+        start: 0,
+        end: 0.1,
+      },
+    });
+    barPlot.render();
+  }, [sortData]);
 
   return (
     <>
@@ -95,7 +125,7 @@ function App() {
           </p>
           <p>
             &emsp;This website tends to visualize and explain concerns about
-            when, which, and how many lead exposure happened in UNC, to make the
+            when, where, and how many lead exposure happened in UNC, to make the
             published dataset easier to understand.
           </p>
           <p>
@@ -127,7 +157,7 @@ function App() {
             lead-exposure problem is being solving now.
           </p>
           <p>
-            &emsp;Which -- (in{" "}
+            &emsp;Where -- (in{" "}
             <a
               className="inline-text"
               href="https://g2plot.antv.antgroup.com/en/"
@@ -150,14 +180,11 @@ function App() {
           <p>
             The results indicate that the largest lead-exposed portions
             buildings were department halls (in yellow). Student residence (lite
-            blue above) takes about 20 percent of total. And the biggest numbers
-            appear in the Kenan Studium (23), which is around 7% of all cases
-            and the Wilson Library (16, 5%).
+            blue above) takes about 20 percent of total.
           </p>
           <p>
             Based on the above results, we should still be careful when drinking
-            water in department hall and residence. And please be specificly
-            avoiding using fixtures in Kenan Studium and Wilson Library.
+            water in department hall and residence.
           </p>
           <p>
             &emsp;How many -- (in{" "}
@@ -170,10 +197,25 @@ function App() {
             </a>
             )
           </p>
-          <div id="how"></div>
+          <div>
+            <div ref={containerHow} />
+          </div>
           <p>
-            The above chart shows number of places tested with lead exposure
-            across differnet buildings.
+            The above chart shows the number of places with lead exposure across
+            differnet buildings. You can use the slider bar to change the range
+            of buildings in visualization and hover to see the building name and
+            exposures.
+          </p>
+          <p>
+            From the above results, the biggest numbers appear in the Kenan
+            Studium (23), which is around 7% of all cases and the Wilson Library
+            (16, 5%). Brinkhous-Bullitt Building (14), Mitchell Hall (12), and
+            Kenan Center (11) are above 10 as well. Btw, Sitterson Hall ranked
+            No.6 with 6 lead exposures.
+          </p>
+          <p>
+            Thus please be specificly avoiding using fixtures in Kenan Studium
+            and Wilson Library. And also be careful in the Sitterson Hall.
           </p>
           <p>
             &emsp;Dataset source at:&nbsp;
